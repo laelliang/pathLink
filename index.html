@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module" src="./pathlink/index.mjs"></script>
+
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction:row;
+      height: 400px;
+    }
+    aside {
+      width: 300px;
+    }
+    .dragItem {
+      margin: 0;
+      display: block;
+      width: 300px;
+      font-size: 44px;
+      color: #FFF;
+      user-select: none;
+    }
+    #canva {
+      flex-grow: 1;
+      border: 1px solid #000;
+      overflow: hidden;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <p id="red_p" class="dragItem" style="background-color: red;">红方块</p>
+    <p id="blue_p" class="dragItem" style="background-color: blue;">蓝方块</p>
+  </aside>
+  <div id="canva"></div>
+
+  <script type="module">
+
+    const red_p = document.getElementById('red_p')
+    const blue_p = document.getElementById('blue_p')
+
+    const canva = document.getElementById('canva')
+    const Canva = new PathLink.Canva(canva)
+
+    new PathLink.Drag(red_p, Canva, (mouseX,mouseY) => {
+      const redDiv = document.createElement('div')
+      redDiv.style.backgroundColor = 'red'
+      redDiv.style.width = '100px'
+      redDiv.style.height = '100px'
+      const redRect = new PathLink.Rect(redDiv, {
+        showDot: ['left', 'right', 'top', 'bottom']
+      })
+      const {left, top} = Canva.dom.getBoundingClientRect()
+      Canva.add(redRect, [mouseX - left - 50, mouseY - top - 50])
+    })
+
+    new PathLink.Drag(blue_p, Canva, (mouseX,mouseY) => {
+      const blueDiv = document.createElement('div')
+      blueDiv.style.backgroundColor = 'blue'
+      blueDiv.style.width = '100px'
+      blueDiv.style.height = '100px'
+
+      const blueRect = new PathLink.Rect(blueDiv, {
+        showDot: ['left', 'right', 'top', 'bottom']
+      })
+      const {left, top} = Canva.dom.getBoundingClientRect()
+      Canva.add(blueRect, [mouseX - left - 50, mouseY - top - 50])
+    })
+
+
+  </script>
+
+  
+</body>
+</html>
